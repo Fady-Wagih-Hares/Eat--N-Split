@@ -1,14 +1,17 @@
+import Button from "./Button";
 const FormAddFriend = ({ addFriend, onSetAddFriend, onSetData }) => {
   const handleSubmitAddFriend = (e) => {
     e.preventDefault();
     // console.log(e.target);
     if (!addFriend.name || !addFriend.image) return;
-
+    //  do not mute the original array because react is all about immutability and we are not allowed to mutate props
     onSetData((prev) => [...prev, { ...addFriend, id: Date.now() }]);
     onSetAddFriend({
       name: "",
       image: "",
+      balance: 0,
     });
+    // onSetDeferentID(null);
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,7 +41,7 @@ const FormAddFriend = ({ addFriend, onSetAddFriend, onSetData }) => {
         onChange={handleChange}
         placeholder="Image URL"
       />
-      {<button className="button">Add</button>}
+      {<Button>Add</Button>}
     </form>
   );
 };

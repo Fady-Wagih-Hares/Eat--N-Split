@@ -1,7 +1,14 @@
-const FriendList = ({ friend, onHandleSelect, deferentId, isPaying }) => {
+import Button from "./Button";
+const FriendList = ({
+  friend,
+  onHandleSelect,
+  deferentId,
+  isPaying,
+  openAdd,
+}) => {
   const isSelected = deferentId?.id === friend.id;
   return (
-    <li>
+    <li className={`${isSelected && openAdd ? "selected" : ""}`}>
       <img src={friend.image} alt="" />
       <h3>{friend.name}</h3>
       {friend.balance < 0 && (
@@ -14,10 +21,10 @@ const FriendList = ({ friend, onHandleSelect, deferentId, isPaying }) => {
           {friend?.name} Owe You {Math.abs(friend.balance)}€
         </p>
       )}
-      {friend.balance === 0 && <p>You And {friend?.name} Are Even</p>}
-      <button className="button" onClick={() => onHandleSelect(friend)}>
-        {isSelected ? "Close" : "Select"}
-      </button>
+      {friend?.balance === 0 && <p>You And {friend?.name} Are Even</p>}
+      <Button onClick={() => onHandleSelect(friend)}>
+        {isSelected && openAdd ? "Close" : "Select"}
+      </Button>
     </li>
   );
 };

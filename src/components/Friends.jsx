@@ -1,10 +1,14 @@
 import FriendList from "./FriendList";
 import FormAddFriend from "./FormAddFriend";
+import Button from "./Button";
 
 const Friends = ({
   onSetDeferentID,
   // initialFriends,
   // isSelected,
+  onSetBill,
+  onSetYourExpense,
+  onSetIsPaying,
   deferentId,
   addFriend,
   onSetAddFriend,
@@ -13,11 +17,18 @@ const Friends = ({
   openAdd,
   onSetOpenAdd,
   isPaying,
+  // isSelected,
 }) => {
   // const selectPerson = initialFriends.filter((id) => id !== initialFriends.id);
 
   const handleSelect = (friend) => {
     onSetDeferentID((curId) => (curId?.id === friend.id ? null : friend));
+    onSetOpenAdd(true);
+    if (friend.id !== deferentId?.id) {
+      onSetBill("");
+      onSetYourExpense("");
+      onSetIsPaying("You");
+    }
   };
   // const handleAddFriend = ()=>{
   //   onSetAddFriend((e)=>{
@@ -37,17 +48,20 @@ const Friends = ({
               // isSelected={isSelected}
               deferentId={deferentId}
               isPaying={isPaying}
+              openAdd={openAdd}
             />
           );
         })}
       </ul>
       {openAdd ? (
-        <button
+        <Button
           value={openAdd}
-          onClick={(e) => onSetOpenAdd(!e.target.value)}
-          className="button">
+          onClick={() => {
+            onSetOpenAdd(false);
+            onSetDeferentID(null);
+          }}>
           Add Friend
-        </button>
+        </Button>
       ) : null}
       <>
         {openAdd ? null : (
@@ -56,15 +70,19 @@ const Friends = ({
             onSetAddFriend={onSetAddFriend}
             data={data}
             onSetData={onSetData}
+            deferentId={deferentId}
+            onSetDeferentID={onSetDeferentID}
           />
         )}
 
         {openAdd ? null : (
-          <button
-            onClick={(e) => onSetOpenAdd(!e.target.value)}
-            className="button">
+          <Button
+            onClick={() => {
+              onSetOpenAdd(true);
+              onSetDeferentID(null);
+            }}>
             Close
-          </button>
+          </Button>
         )}
       </>
     </div>

@@ -46,17 +46,23 @@ const App = () => {
 
   // update the balance in Object
   const handleSplitBill = (value) => {
-    setData((curData) =>
-      curData.map((cur) =>
-        cur?.id === +deferentId.id ? { ...cur, balance: value } : cur,
+    setData((friends) =>
+      friends.map((friend) =>
+        Number(friend?.id) === Number(deferentId.id)
+          ? { ...friend, balance: friend.balance + value }
+          : friend,
       ),
     );
   };
   return (
     <div className="app">
+      {/* make prop drilling */}
       <Friends
         deferentId={deferentId}
         onSetDeferentID={setDeferentID}
+        onSetBill={setBill}
+        onSetYourExpense={setYourExpense}
+        onSetIsPaying={setIsPaying}
         // initialFriends={initialFriends}
         // isSelected={isSelected}
         addFriend={addFriend}
@@ -66,11 +72,13 @@ const App = () => {
         openAdd={openAdd}
         onSetOpenAdd={setOpenAdd}
         isPaying={isPaying}
+        // isSelected={deferentId !== null}
       />
       <FormSplitBill
         isSelected={deferentId !== null}
         onSetDeferentID={setDeferentID}
-        data={selectFriend}
+        onSetAddFriend={setAddFriend}
+        selectFriend={selectFriend}
         bill={bill}
         onSetBill={setBill}
         yourExpense={yourExpense}
@@ -80,6 +88,7 @@ const App = () => {
         isPaying={isPaying}
         onSetIsPaying={setIsPaying}
         onHandleSplitBill={handleSplitBill}
+        openAdd={openAdd}
       />
     </div>
   );
